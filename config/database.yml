@@ -1,0 +1,6 @@
+adapter: postgresql
+encoding: unicode
+pool: 5
+host: postgres
+username: postgres
+database: rebase_labs_development
