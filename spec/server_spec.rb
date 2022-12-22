@@ -1,12 +1,7 @@
 require "spec_helper"
 require './app/import_from_csv'
 
-extend ImportFromCsv
-
-import(test:true)
-
 describe 'Server' do
-  # let(:server) { Server.new }
   context "GET to /tests" do
     it 'e tem status 200' do
       get '/tests'
@@ -35,7 +30,7 @@ describe 'Server' do
       expect(last_response.body).to include('exam_type_limit')
       expect(last_response.body).to include('exam_type_resul')
     end
-    it 'e vê os dados da primeira paciente' do
+    it 'e vê os dados' do
       extend ImportFromCsv
 
       import(test:true)
