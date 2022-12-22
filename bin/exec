@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ $# -eq 3 ]
+then
+  docker run \
+    --rm \
+    --name rebase-labs \
+    -w /rebase_labs \
+    -v $(pwd):/rebase_labs \
+    -v rubygems_rebase_labs:/usr/local/bundle \
+    -p 3000:3000 \
+    --network rebase_labs \
+    ruby \
+    bash -c "bundle install && RACK_ENV='$3' $1 $2"
+elif [ $# -eq 2 ]
+then
+  docker run \
+    --rm \
+    --name rebase-labs \
+    -w /rebase_labs \
+    -v $(pwd):/rebase_labs \
+    -v rubygems_rebase_labs:/usr/local/bundle \
+    -p 3000:3000 \
+    --network rebase_labs \
+    ruby \
+    bash -c "bundle install && RACK_ENV='development' $1 $2"
+else
+  echo 'No argument'
+fi
