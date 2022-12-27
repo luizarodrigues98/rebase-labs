@@ -9,6 +9,7 @@ gem 'rack'
 gem 'rake'
 gem 'sinatra', '~> 3.0', '>= 3.0.5'
 gem 'sinatra-activerecord'
+gem 'sinatra-cors', '~> 1.2'
 
 group :test do
   gem "rspec"
