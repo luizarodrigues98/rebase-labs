@@ -5,13 +5,16 @@ describe 'Server' do
   context "GET to /tests" do
     it 'e tem status 200' do
       get '/tests'
+      
       expect(last_response.status).to eq 200
     end
+
     it 'e vê os campos' do
       extend ImportFromCsv
-
       import(test:true)
+      
       get '/tests'
+
       expect(last_response.body).to include('048.973.170-88')
       expect(last_response.body).to include('Emilly Batista Neto')
       expect(last_response.body).to include('patient_name')
@@ -30,13 +33,24 @@ describe 'Server' do
       expect(last_response.body).to include('exam_type_limit')
       expect(last_response.body).to include('exam_type_resul')
     end
+
     it 'e vê os dados' do
       extend ImportFromCsv
-
       import(test:true)
+
       get '/tests'
+
       expect(last_response.body).to include('048.973.170-88')
       expect(last_response.body).to include('Emilly Batista Neto')
+    end
+    
+    it 'e vê a quantidade de exams no arq csv' do
+      extend ImportFromCsv
+      import(test:true)
+
+      get '/tests'
+
+      expect(last_response.body.length).to eq 4809
     end
   end
 end
