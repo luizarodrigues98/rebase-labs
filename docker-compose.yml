@@ -1,16 +1,43 @@
 version: '3.9'
 
 services:
-  app:
-    image: 'ruby'
-    working_dir: /app
+  postgres:
+    image: postgres:latest
     volumes:
-      - .:/app
-      - rubygems:/usr/local/bundle
+      - pgdata_rebase_labs:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+      - "6379:6379"
+
+  sidekiq:
+    depends_on:
+      - 'redis'
+    build: .
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    command: bash -c "bundle exec sidekiq -r ./app/jobs/application_job.rb"
+    volumes:
+      - .:/rebase_labs
+
+  rebase-labs:
+    depends_on:
+      - postgres
+    build: .
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    command: bash -c "bundle exec puma"
+    volumes:
+      - .:/rebase_labs
     ports:
       - "3000:3000"
-    command: 'bundle && ruby ./app/server.rb'
 
 volumes:
+  pgdata_rebase_labs:
   rubygems:
-  gemconfig:
