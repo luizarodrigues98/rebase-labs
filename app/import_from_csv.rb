@@ -40,16 +40,14 @@ module ImportFromCsv
     end
   end
 
-  def import(test: false)
-    rows = CSV.read("./data.csv", col_sep: ';')
-
+  def import(rows, test: false)
     columns = rows.shift
 
     if test
       rows = rows.first(10)
     end
 
-    rows.map do |row|
+    rows.each do |row|
       exam = row.each_with_object({}).with_index do |(cell, acc), idx|
         column = columns[idx]
         acc[get_db_column_name(column)] = cell
