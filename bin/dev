@@ -1,6 +1,0 @@
-#!/bin/bash
-
-bin/postgres
-bin/run_ruby
-
-docker stop postgres
