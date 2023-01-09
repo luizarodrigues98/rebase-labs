@@ -44,7 +44,7 @@ module ImportFromCsv
     columns = rows.shift
 
     if test
-      rows = rows.first(10)
+      rows = rows.first(30)
     end
 
     rows.each do |row|
