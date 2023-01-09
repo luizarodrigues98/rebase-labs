@@ -16,4 +16,5 @@ gem 'sinatra-cors', '~> 1.2'
 group :test do
   gem "rspec"
   gem "rack-test"
+  gem 'simplecov'
 end
