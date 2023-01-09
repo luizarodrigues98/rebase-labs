@@ -1,8 +1,15 @@
 require "spec_helper"
 require './app/import_from_csv'
-
+require './app/server.rb'
 describe 'Server' do
+  
   context "GET to /tests" do
+    before :each do
+      extend ImportFromCsv
+      rows = CSV.read("./data.csv", col_sep: ';')
+      import(rows, test: true)
+    end
+
     it 'e tem status 200' do
       get '/tests'
       
@@ -10,9 +17,6 @@ describe 'Server' do
     end
 
     it 'e vê os campos' do
-      extend ImportFromCsv
-      import(test:true)
-      
       get '/tests'
 
       expect(last_response.body).to include('048.973.170-88')
@@ -31,13 +35,10 @@ describe 'Server' do
       expect(last_response.body).to include('exam_date')
       expect(last_response.body).to include('exam_type')
       expect(last_response.body).to include('exam_type_limit')
-      expect(last_response.body).to include('exam_type_resul')
+      expect(last_response.body).to include('exam_type_result')
     end
 
     it 'e vê os dados' do
-      extend ImportFromCsv
-      import(test:true)
-
       get '/tests'
 
       expect(last_response.body).to include('048.973.170-88')
@@ -45,12 +46,9 @@ describe 'Server' do
     end
     
     it 'e vê a quantidade de exams no arq csv' do
-      extend ImportFromCsv
-      import(test:true)
-
       get '/tests'
 
-      expect(last_response.body.length).to eq 4809
+      expect(JSON.parse(last_response.body).count).to eq 3
     end
   end
 end

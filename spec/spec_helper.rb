@@ -2,7 +2,8 @@ ENV["RACK_ENV"] = "test"
 require "./app/server"
 require "rspec"
 require 'rack/test'
-
+require 'simplecov'
+SimpleCov.start
 def app
   Sinatra::Application
 end
