@@ -12,6 +12,8 @@ gem 'sidekiq'
 gem 'sinatra', '~> 3.0', '>= 3.0.5'
 gem 'sinatra-activerecord'
 gem 'sinatra-cors', '~> 1.2'
+gem "brakeman"
+
 
 group :test do
   gem "rspec"
